@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leon 的网站</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff6b6b;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
+            text-align: left;
+            width: 100%;
+        }
+
+        .content img {
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #003366;
+            margin-top: 0;
+        }
+
+        .services {
+            margin-top: 30px;
+        }
+
+        .service-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .service-item h3 {
+            color: #007BFF;
+            margin-top: 0;
+        }
+
+        .service-item p {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff6b6b;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #f7d94e;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Leon 咨询处</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="xiangmu.html">项目</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="content">
+            <h2 id="about">关于个人信息</h2>
+            <img src="wchat.jpg" alt="Leon 的微信照片" width="200">
+            <p>大家好，我是网站负责人 Leon，微信是 18738132558，QQ：2385687286，tg和WhatsApp也可以联系。期待与您交流！</p>
+            <div class="service-item">
+                <h3>帮助注册 Apple ID</h3>
+                <p>我们可以帮助您注册 Apple ID，详细的联系方式请参见该页面顶部。</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <a href="thanks_page.html" id="copyrightLink">&copy; 2024 Leon 的个人网站</a>
+        <div class="privacy-policy">
+            <h3>用户隐私条款</h3>
+            <p>我们非常重视您的隐私，所有提供给本网站的信息将严格保密，并仅用于提供客户支持。有关数据的收集、使用和保护政策的更多信息，请阅读我们的完整隐私政策。</p>
+            <a href="yonghutiaok.html">阅读完整的用户隐私条款</a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('copyrightLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = "thanks_page.html";
+            setTimeout(function () {
+                window.scrollTo(0, document.body.scrollHeight);
+                const audio = new Audio('malave.mp3');
+                audio.play();
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
