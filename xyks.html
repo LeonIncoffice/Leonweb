@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小猿口算自动答题系统</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #003366;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
+            text-align: left;
+            width: 100%;
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-container video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>小猿口算自动答题系统</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="xiangmu.html">项目</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>项目介绍</h2>
+            <p>小猿口算自动答题系统是一款基于光学字符识别 (OCR) 和计算机视觉技术的智能化工具，旨在通过自动化手段帮助用户快速解决口算问题。该系统结合了先进的图像处理算法和深度学习模型，能够高效、精准地识别纸质或电子版的算式，并自动给出答案。此功能不仅提高了家长和学生在学习过程中的效率，还为教师提供了辅助批改作业的工具，帮助优化教学体验。</p>
+
+            <div class="video-container">
+                <video controls>
+                    <source src="xyks_demo.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+
+            <h3>主要功能</h3>
+            <ul>
+                <li><strong>OCR 扫描与识别：</strong> 自动扫描，系统能够自动识别手写或打印的算式内容，并进行结构化处理。</li>
+                <li><strong>快速计算与结果反馈：</strong> 识别完成后，系统会调用计算模块快速计算并提供正确答案，确保计算准确无误。</li>
+                <li><strong>用户友好界面：</strong> 界面设计简洁直观，操作简单，适合不同年龄段的用户使用，特别是家长和小学生。</li>
+                <li><strong>多平台支持：</strong> 支持移动设备桌面设备（win），用户可以在不同场景下使用。</li>
+                <li><strong>学习数据记录：</strong> 系统能够记录每次的练习结果，帮助用户跟踪学习进度，并提供改进建议。</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Leon 的个人网站</p>
+    </footer>
+</body>
+
+</html>
