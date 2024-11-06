@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系方式</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #4a90e2;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #numberDiv {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+      width: 300px;
+      text-align: center;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #e7f3fe;
+      color: #31708f;
+      width: 300px;
+      text-align: center;
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+
+<body>
+  <h2>申请合作</h2>
+  <button onclick="showNumber()">申请注册</button>
+  <div id="numberDiv" style="display: none;">
+    <p>手机号：<strong>18738132558</strong> 或者扫描主页二维码</p>
+  </div>
+
+  <button onclick="submitApplication()">在线申请</button>
+  <button onclick="inputCode()">输入合作代码</button>
+
+  <div id="result"></div>
+
+  <script>
+    var contractCodes = ["1U5Z3G2A", "9M4P7F6S", "5R8L2C7X"];
+
+    function showNumber() {
+      var div = document.getElementById('numberDiv');
+      div.style.display = div.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function submitApplication() {
+      alert('请联系管理员进行后续操作。');
+    }
+
+    function inputCode() {
+      var inputCode = prompt('请输入合约代码').trim().toUpperCase();
+      var resultDiv = document.getElementById('result');
+      if (contractCodes.includes(inputCode)) {
+        resultDiv.innerHTML = '该网站所有合作商都是正规合作商。第二合作商提供的商品均留 20%的利润，且所有的利润都会用于优化网站。';
+        resultDiv.style.display = 'block';
+      } else {
+        alert('代码错误');
+        resultDiv.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
