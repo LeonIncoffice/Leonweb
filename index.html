@@ -53,33 +53,13 @@
             color: #ff6b6b;
         }
 
-        .hero {
-            background: url('redcross_background.jpg') no-repeat center center/cover;
-            color: #ffffff;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .hero h1 {
-            font-size: 2.5em;
-        }
-
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .content {
@@ -87,13 +67,10 @@
             width: 100%;
         }
 
-        .content img {
-            float: left;
-            margin-right: 20px;
-            margin-bottom: 20px;
-        }
-
         .intro {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             background: #f9f9f9;
             padding: 20px;
             border-radius: 10px;
@@ -101,19 +78,25 @@
             margin-bottom: 20px;
         }
 
+        .intro img {
+            margin-right: 20px;
+            width: 150px;
+            border-radius: 10px;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
         h2 {
             color: #005792;
             margin-top: 0;
         }
 
-        .services {
-            margin-top: 30px;
-        }
-
         .service-item {
             background: #f0f4f8;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
         }
@@ -169,20 +152,19 @@
             <li><a href="#contact">联系我们</a></li>
         </ul>
     </nav>
-    <div class="hero">
-        <h1>欢迎来到 Leon 咨询处</h1>
-    </div>
     <div class="container">
         <div class="intro">
-            <h2 id="about">关于个人信息</h2>
-            <img src="wchat.jpg" alt="Leon 的微信照片" width="200">
-            <p>大家好，我是网站负责人 Leon，微信是 18738132558，QQ：2385687286，tg和WhatsApp也可以联系。期待与您交流！</p>
+            <img src="wchat.jpg" alt="Leon 的微信照片">
+            <div class="intro-text">
+                <h2 id="about">关于个人信息</h2>
+                <p>大家好，我是网站负责人 Leon，微信是 18738132558，QQ：2385687286，tg和WhatsApp也可以联系。期待与您交流！</p>
+            </div>
         </div>
         <div class="service-item">
             <h3>帮助注册 Apple ID</h3>
             <p>我们可以帮助您注册 Apple ID，详细的联系方式请参见该页面顶部。</p>
         </div>
-        <div class="model-info">
+        <div class="service-item">
             <h3>扁平足医学模型简介</h3>
             <p>LeonMED 扁平足医学模型是专为诊断和评估扁平足而开发的先进工具。通过分析患者的足部影像，我们的模型能够帮助医生做出更准确的诊断，推荐适合的治疗方案。</p>
             <p>扁平足是一种常见的足部疾病，主要表现为足弓塌陷。我们的模型通过机器学习和影像分析技术，能够有效地识别和评估扁平足的严重程度。</p>
