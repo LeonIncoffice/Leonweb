@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeonMED - 扁平足医学模型</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            background-color: #005792;
+            color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #005792;
+        }
+
+        .hero {
+            background: url('flatfoot.jpg') no-repeat center center/cover;
+            color: #ffffff;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .model-info {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .model-info h3 {
+            color: #005792;
+            margin-top: 0;
+        }
+
+        .model-info p {
+            margin: 10px 0;
+        }
+
+        .contact {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>LeonMED 扁平足医学模型</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="#model">模型介绍</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1>扁平足诊断与治疗</h1>
+    </div>
+
+    <div class="container">
+        <h2 id="model">我们的扁平足医学模型</h2>
+        <div class="content">
+            <div class="model-info">
+                <h3>扁平足医学模型简介</h3>
+                <p>LeonMED 扁平足医学模型是专为诊断和评估扁平足而开发的先进工具。通过分析患者的足部影像，我们的模型能够帮助医生做出更准确的诊断，推荐适合的治疗方案。</p>
+                <p>扁平足是一种常见的足部疾病，主要表现为足弓塌陷。我们的模型通过机器学习和影像分析技术，能够有效地识别和评估扁平足的严重程度。</p>
+            </div>
+              
+        </>
+    </div>
+
+    <div class="contact" id="contact">
+        <h2>联系我们</h2>     
+        <p>邮箱：leonhelp888@hotmail.com</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 LeonMED 扁平足医学模型</p>
+    </footer>
+</body>
+
+</html>
