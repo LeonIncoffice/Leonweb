@@ -9,16 +9,16 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f4f8;
             color: #333;
             margin: 0;
         }
 
         header {
             text-align: center;
-            background-color: #003366;
+            background-color: #005792;
             color: #ffffff;
-            padding: 20px 0;
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
@@ -44,7 +44,7 @@
 
         nav ul li a {
             text-decoration: none;
-            color: #333;
+            color: #005792;
             font-weight: bold;
             transition: color 0.3s;
         }
@@ -53,13 +53,27 @@
             color: #ff6b6b;
         }
 
+        .hero {
+            background: url('redcross_background.jpg') no-repeat center center/cover;
+            color: #ffffff;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3em;
+        }
+
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
             padding: 20px;
-            background: white;
+            background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             max-width: 1000px;
@@ -78,8 +92,17 @@
             margin-bottom: 20px;
         }
 
+        .model-info {
+            flex: 1;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin: 20px;
+        }
+
         h2 {
-            color: #003366;
+            color: #005792;
             margin-top: 0;
         }
 
@@ -88,7 +111,7 @@
         }
 
         .service-item {
-            background: #f9f9f9;
+            background: #f0f4f8;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -96,7 +119,7 @@
         }
 
         .service-item h3 {
-            color: #007BFF;
+            color: #ff6b6b;
             margin-top: 0;
         }
 
@@ -104,12 +127,21 @@
             margin: 10px 0;
         }
 
+        .contact {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #e1ecf4;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            background-color: #333;
-            color: #fff;
+            background-color: #005792;
+            color: #ffffff;
             font-size: 14px;
         }
 
@@ -137,6 +169,9 @@
             <li><a href="#contact">联系我们</a></li>
         </ul>
     </nav>
+    <div class="hero">
+        <h1>扁平足诊断与治疗</h1>
+    </div>
     <div class="container">
         <div class="content">
             <h2 id="about">关于个人信息</h2>
@@ -146,7 +181,16 @@
                 <h3>帮助注册 Apple ID</h3>
                 <p>我们可以帮助您注册 Apple ID，详细的联系方式请参见该页面顶部。</p>
             </div>
+            <div class="model-info">
+                <h3>扁平足医学模型简介</h3>
+                <p>LeonMED 扁平足医学模型是专为诊断和评估扁平足而开发的先进工具。通过分析患者的足部影像，我们的模型能够帮助医生做出更准确的诊断，推荐适合的治疗方案。</p>
+                <p>扁平足是一种常见的足部疾病，主要表现为足弓塌陷。我们的模型通过机器学习和影像分析技术，能够有效地识别和评估扁平足的严重程度。</p>
+            </div>
         </div>
+    </div>
+    <div class="contact" id="contact">
+        <h2>联系我们</h2>
+        <p>邮箱：leonhelp888@hotmail.com</p>
     </div>
     <footer>
         <a href="thanks_page.html" id="copyrightLink">&copy; 2024 Leon 的个人网站</a>
