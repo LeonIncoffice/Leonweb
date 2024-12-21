@@ -4,29 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leon Edu - 教育服务</title>
+    <title>LeonEdu - 教育平台</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
-        :root {
-            --primary-color: #005792;
-            --accent-color: #ff6b6b;
-            --background-color: #f0f4f8;
-            --hover-color: #f7d94e;
-        }
-
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: var(--background-color);
+            background-color: #f5f5f5;
             color: #333;
             margin: 0;
-            transition: background-color 0.3s ease;
         }
 
         header {
             text-align: center;
-            background-color: var(--primary-color);
+            background-color: #003366;
             color: #ffffff;
-            padding: 20px;
+            padding: 20px 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
@@ -52,246 +44,147 @@
 
         nav ul li a {
             text-decoration: none;
-            color: var(--primary-color);
+            color: #333;
             font-weight: bold;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s;
         }
 
         nav ul li a:hover {
-            color: var(--accent-color);
-            transform: scale(1.1);
+            color: #003366;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s forwards;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .intro {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
+            text-align: left;
+            width: 100%;
+        }
+
+        .edu-item {
             background: #f9f9f9;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        @media (min-width: 768px) {
-            .intro {
-                flex-direction: row;
-            }
-        }
-
-        .intro img {
-            margin-bottom: 20px;
-            width: 150px;
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: fadeInLeft 1s forwards;
-        }
-
-        @keyframes fadeInLeft {
-            0% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .intro-text {
-            flex: 1;
-            text-align: center;
-            opacity: 0;
-            transform: translateX(20px);
-            animation: fadeInRight 1s forwards;
-            animation-delay: 0.5s;
-        }
-
-        @keyframes fadeInRight {
-            0% {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        h2 {
-            color: var(--primary-color);
+        .edu-item h3 {
+            color: #007BFF;
             margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 10px;
         }
 
-        .service-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .service-item {
-            background: var(--background-color);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .service-item h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-
-        .service-item p {
+        .edu-item p {
             margin: 10px 0;
-        }
-
-        .contact {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #e1ecf4;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s forwards;
-            animation-delay: 1s;
+            font-size: 16px;
         }
 
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            background-color: var(--primary-color);
-            color: #ffffff;
+            background-color: #333;
+            color: #fff;
             font-size: 14px;
         }
 
         a {
             text-decoration: none;
-            color: var(--accent-color);
-            transition: color 0.3s ease;
+            color: #007BFF;
+            transition: color 0.3s;
         }
 
         a:hover {
-            color: var(--hover-color);
+            color: #0056b3;
+        }
+
+        /* 优化容器的宽度和间距 */
+        .container {
+            max-width: 1300px; /* 增加最大宽度 */
+            padding: 30px; /* 增加内边距 */
+        }
+
+        /* 修改教育项样式，增加间距 */
+        .edu-item {
+            padding: 25px; /* 增加内边距 */
+            margin-bottom: 30px; /* 增加底部间距 */
+        }
+
+        /* 优化小屏设备显示 */
+        @media (max-width: 768px) {
+            .edu-item {
+                padding: 20px; /* 调整小屏幕上的内边距 */
+            }
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Leon Edu - 专业教育服务</h1>
+        <h1>LeonEdu 教育平台</h1>
     </header>
     <nav>
         <ul>
             <li><a href="index.html">主页</a></li>
-            <li><a href="#services">教育服务</a></li>
-            <li><a href="#resources">学习资源</a></li>
+            <li><a href="#courses">课程</a></li>
+            <li><a href="#resources">资源</a></li>
             <li><a href="#contact">联系我们</a></li>
         </ul>
     </nav>
+
     <div class="container">
-        <div class="intro">
-            <img src="leon_edu.jpg" alt="Leon Edu Logo">
-            <div class="intro-text">
-                <h2>关于 Leon Edu</h2>
-                <p>欢迎来到 Leon Edu！我们提供个性化的教育服务，包括在线辅导、学业规划、留学咨询等，帮助学生在学术和职业生涯中取得成功。</p>
+        <div class="content" id="courses">
+            <h2>我们的课程</h2>
+            <div class="edu-item">
+                <h3><a href="course1.html">基础编程课程</a></h3>
+                <p>本课程旨在帮助学习者掌握编程基础，从零开始入门。</p>
+            </div>
+            <div class="edu-item">
+                <h3><a href="course2.html">数据分析与应用</a></h3>
+                <p>学习数据分析的基本工具和技术，应用在实际问题中。</p>
+            </div>
+            <div class="edu-item">
+                <h3><a href="course3.html">人工智能与机器学习</a></h3>
+                <p>深入学习机器学习和人工智能的核心理论与技术。</p>
+            </div>
+
+            <h2 id="resources">教育资源</h2>
+            <div class="edu-item">
+                <h3><a href="resource1.html">学习资料</a></h3>
+                <p>提供各类学习资料，包括书籍、教程和在线资源。</p>
+            </div>
+            <div class="edu-item">
+                <h3><a href="resource2.html">在线论坛</a></h3>
+                <p>加入我们的社区，讨论课程内容、分享经验。</p>
+            </div>
+
+            <h2 id="contact">联系我们</h2>
+            <div class="edu-item">
+                <h3><a href="contact.html">联系我们</a></h3>
+                <p>如果您有任何问题，请通过邮件与我们联系。</p>
             </div>
         </div>
-
-        <div id="services" class="service-list">
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-        </div>
-
-        <div id="resources" class="service-list">
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-            <div class="service-item">
-                <h3>暂无</h3>
-                <p>暂无</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="contact" id="contact">
-        <h2>联系我们</h2>
-        <p>邮箱：luckiyleon1313113@gmail.com</p>
     </div>
 
     <footer>
-        <a href="thanks_page.html">&copy; 2024 Leon Edu</a>
-        <div class="privacy-policy">
-            <h3>用户隐私条款</h3>
-            <p>我们非常重视您的隐私，所有提供给本网站的信息将严格保密，并仅用于提供客户支持。</p>
-            <a href="privacy_policy.html">阅读完整的用户隐私条款</a>
-        </div>
+        <p>&copy; 2024 LeonEdu 教育平台</p>
     </footer>
-
-    <script>
-        // 滚动显示动画
-        const elementsToAnimate = document.querySelectorAll('.service-item, .contact');
-        const options = {
-            threshold: 0.2
-        };
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, options);
-        elementsToAnimate.forEach(element => observer.observe(element));
-    </script>
 </body>
 
 </html>
-
