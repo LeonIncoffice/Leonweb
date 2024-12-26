@@ -1,0 +1,30 @@
+# Design and Implementation of a Neural Network Visualization Tool
+
+## Introduction
+The complexity of neural networks makes their internal workings difficult to understand. To assist researchers and engineers in better understanding and debugging neural networks, we have developed a neural network visualization tool based on Tkinter.
+
+## Related Work
+In recent years, many visualization tools have been developed to help understand the internal mechanisms of neural networks. However, these tools are often complex and difficult to use. This project aims to provide a simple and user-friendly solution.
+
+## Methodology
+### Neural Network Architecture
+Our tool employs a simple two-layer neural network, supporting handwritten digit recognition tasks. The weights are initialized using the Xavier method.
+
+### User Interface Design
+The user interface is implemented using the Tkinter library, providing a drawing canvas, result display, and chat functionality.
+
+### Animation and Visualization
+Dynamic visualization of the neural network is achieved through the Canvas component, displaying node activations and connection strengths.
+
+### Language Module Integration
+A simple language module is integrated to generate responses to user inputs.
+
+## Experiments and Results
+We conducted multiple tests on the tool, demonstrating its effectiveness in showcasing the neural network's operation. User feedback indicates that the interface is friendly and easy to use.
+
+## Discussion
+While the tool is powerful, performance may degrade when handling large neural networks. Future work will focus on optimizing performance and adding more visualization options.
+
+## Conclusion
+This project successfully developed a neural network visualization tool that helps users better understand the internal mechanisms of neural networks.
+
