@@ -31,23 +31,27 @@
 
         .canvas-container {
             display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             margin-top: 20px;
         }
 
-        .drawing-section {
+        .drawing-section, .network-section {
             text-align: center;
-        }
-
-        .network-section {
-            text-align: center;
+            margin-bottom: 20px;
         }
 
         canvas {
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .canvas-container {
+                flex-direction: row;
+                justify-content: space-around;
+            }
         }
     </style>
 </head>
@@ -68,16 +72,16 @@
         </div>
     </div>
     <script>
-        // 获取画布元素
         const drawingCanvas = document.getElementById('drawingCanvas');
         const networkCanvas = document.getElementById('networkCanvas');
         const drawingContext = drawingCanvas.getContext('2d');
         const networkContext = networkCanvas.getContext('2d');
 
-        // 存储绘制的点
         let drawingPoints = [];
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
 
-        // 初始化绘图网格
         function initGrid() {
             drawingContext.strokeStyle = '#e5e5e5';
             drawingContext.lineWidth = 1;
@@ -97,19 +101,10 @@
             }
         }
 
-        // 绘图板事件
-        let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
-
-        drawingCanvas.addEventListener('mousedown', startDrawing);
-        drawingCanvas.addEventListener('mousemove', draw);
-        drawingCanvas.addEventListener('mouseup', stopDrawing);
-        drawingCanvas.addEventListener('mouseout', stopDrawing);
-
         function startDrawing(e) {
             isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            const rect = drawingCanvas.getBoundingClientRect();
+            [lastX, lastY] = [e.clientX - rect.left, e.clientY - rect.top];
             drawingPoints.push({
                 type: 'start',
                 x: lastX,
@@ -120,35 +115,36 @@
 
         function draw(e) {
             if (!isDrawing) return;
-            
+            const rect = drawingCanvas.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
+
             drawingContext.beginPath();
             drawingContext.lineWidth = 15;
             drawingContext.lineCap = 'round';
             drawingContext.strokeStyle = 'black';
             
             drawingContext.moveTo(lastX, lastY);
-            drawingContext.lineTo(e.offsetX, e.offsetY);
+            drawingContext.lineTo(currentX, currentY);
             drawingContext.stroke();
             
             drawingPoints.push({
                 type: 'draw',
                 startX: lastX,
                 startY: lastY,
-                endX: e.offsetX,
-                endY: e.offsetY,
+                endX: currentX,
+                endY: currentY,
                 time: Date.now()
             });
             
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            [lastX, lastY] = [currentX, currentY];
 
-            // 触发神经网络反应
-            updateNetworkVisualization(e.offsetX / drawingCanvas.width, e.offsetY / drawingCanvas.height);
+            updateNetworkVisualization(currentX / drawingCanvas.width, currentY / drawingCanvas.height);
         }
 
         function stopDrawing() {
             if (isDrawing) {
                 isDrawing = false;
-                // 1秒后开始消失动画
                 setTimeout(startFading, 1000);
             }
         }
@@ -163,16 +159,13 @@
                 
                 if (progress >= 1) {
                     drawingPoints = [];
-                    // 重置神经网络显示
                     drawNetwork();
                     return;
                 }
                 
-                // 清除画布并重绘网格
                 drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
                 initGrid();
                 
-                // 重绘消失的线条
                 drawingContext.strokeStyle = `rgba(0, 0, 0, ${1 - progress})`;
                 drawingContext.lineWidth = 15;
                 drawingContext.lineCap = 'round';
@@ -184,7 +177,6 @@
                         drawingContext.lineTo(point.endX, point.endY);
                         drawingContext.stroke();
                         
-                        // 更新神经网络显示
                         updateNetworkVisualization(
                             point.endX / drawingCanvas.width,
                             point.endY / drawingCanvas.height
@@ -198,7 +190,6 @@
             animate();
         }
 
-        // 神经网络可视化
         function drawNetwork() {
             const layers = [
                 {name: '输入层', nodes: 5},
@@ -213,7 +204,6 @@
             const nodeSpacing = 50;
             const nodeRadius = 6;
             
-            // 绘制层标签
             networkContext.font = '12px Arial';
             networkContext.fillStyle = '#333333';
             layers.forEach((layer, i) => {
@@ -221,16 +211,13 @@
                 networkContext.fillText(layer.name, x - 20, 40);
             });
             
-            // 计算激活值（模拟神经网络的激活）
             const activations = layers.map((layer, layerIndex) => {
                 return Array(layer.nodes).fill(0).map((_, nodeIndex) => {
-                    // 根据鼠标位置和节点位置计算激活值
-                    const activation = Math.sin(x * 5 + y * 3 + layerIndex + nodeIndex * 0.5) * 0.5 + 0.5;
+                    const activation = Math.sin(layerIndex + nodeIndex * 0.5) * 0.5 + 0.5;
                     return activation;
                 });
             });
             
-            // 绘制连接线（简化版本，不使用渐变）
             for(let i = 0; i < layers.length - 1; i++) {
                 const startLayerX = startX + i * layerSpacing;
                 const endLayerX = startX + (i + 1) * layerSpacing;
@@ -242,9 +229,8 @@
                         const endY = 80 + k * nodeSpacing;
                         const strength = (activations[i][j] + activations[i+1][k]) / 2;
                         
-                        // 使用简单的灰色线条
-                        networkContext.strokeStyle = '#e5e5e5';  // 浅灰色
-                        networkContext.lineWidth = 0.5;  // 细线
+                        networkContext.strokeStyle = '#e5e5e5';
+                        networkContext.lineWidth = 0.5;
                         
                         networkContext.beginPath();
                         networkContext.moveTo(startLayerX, startY);
@@ -254,14 +240,12 @@
                 }
             }
             
-            // 绘制节点
             layers.forEach((layer, i) => {
                 const x = startX + i * layerSpacing;
                 
                 for(let j = 0; j < layer.nodes; j++) {
                     const y = 80 + j * nodeSpacing;
                     
-                    // 外圈
                     networkContext.beginPath();
                     networkContext.arc(x, y, nodeRadius, 0, Math.PI * 2);
                     networkContext.fillStyle = 'white';
@@ -270,7 +254,6 @@
                     networkContext.lineWidth = 1;
                     networkContext.stroke();
                     
-                    // 激活效果
                     const activation = activations[i][j];
                     networkContext.beginPath();
                     networkContext.arc(x, y, nodeRadius * 0.8, 0, Math.PI * 2);
@@ -280,9 +263,7 @@
             });
         }
 
-        // 添加神经网络可视化更新函数
         function updateNetworkVisualization(x, y) {
-            // 清除之前的神经网络绘制
             networkContext.clearRect(0, 0, networkCanvas.width, networkCanvas.height);
             
             const layers = [
@@ -298,31 +279,29 @@
             const nodeSpacing = 50;
             const nodeRadius = 6;
             
-            // 定义每层的颜色
             const layerColors = {
                 '输入层': {
-                    base: '#0A84FF',    // 蓝色
+                    base: '#0A84FF',
                     glow: '#64D2FF'
                 },
                 '隐藏层1': {
-                    base: '#BF5AF2',    // 紫色
+                    base: '#BF5AF2',
                     glow: '#DA8FFF'
                 },
                 '隐藏层2': {
-                    base: '#FF375F',    // 红色
+                    base: '#FF375F',
                     glow: '#FF7B9C'
                 },
                 '隐藏层3': {
-                    base: '#30D158',    // 绿色
+                    base: '#30D158',
                     glow: '#7AE582'
                 },
                 '输出层': {
-                    base: '#FFD60A',    // 金色
+                    base: '#FFD60A',
                     glow: '#FFE55C'
                 }
             };
             
-            // 绘制层标签
             networkContext.font = '12px Arial';
             networkContext.fillStyle = '#333333';
             layers.forEach((layer, i) => {
@@ -330,7 +309,6 @@
                 networkContext.fillText(layer.name, x - 20, 40);
             });
             
-            // 计算激活值
             const activations = layers.map((layer, layerIndex) => {
                 return Array(layer.nodes).fill(0).map((_, nodeIndex) => {
                     const activation = Math.sin(x * 5 + y * 3 + layerIndex + nodeIndex * 0.5) * 0.5 + 0.5;
@@ -338,7 +316,6 @@
                 });
             });
             
-            // 先绘制所有连接线（使用简单的灰色线条）
             for(let i = 0; i < layers.length - 1; i++) {
                 const startLayerX = startX + i * layerSpacing;
                 const endLayerX = startX + (i + 1) * layerSpacing;
@@ -350,8 +327,8 @@
                         const endY = 80 + k * nodeSpacing;
                         
                         networkContext.beginPath();
-                        networkContext.strokeStyle = '#e5e5e5';  // 浅灰色
-                        networkContext.lineWidth = 0.5;  // 细线
+                        networkContext.strokeStyle = '#e5e5e5';
+                        networkContext.lineWidth = 0.5;
                         networkContext.moveTo(startLayerX, startY);
                         networkContext.lineTo(endLayerX, endY);
                         networkContext.stroke();
@@ -359,7 +336,6 @@
                 }
             }
             
-            // 绘制节点和发光效果
             layers.forEach((layer, i) => {
                 const x = startX + i * layerSpacing;
                 const colors = layerColors[layer.name];
@@ -368,8 +344,7 @@
                     const y = 80 + j * nodeSpacing;
                     const activation = activations[i][j];
                     
-                    // 发光效果
-                    if (activation > 0.1) {  // 只在激活值大于阈值时绘制发光效果
+                    if (activation > 0.1) {
                         const glowGradient = networkContext.createRadialGradient(
                             x, y, 0,
                             x, y, nodeRadius * 2
@@ -383,7 +358,6 @@
                         networkContext.fill();
                     }
                     
-                    // 节点外圈
                     networkContext.beginPath();
                     networkContext.arc(x, y, nodeRadius, 0, Math.PI * 2);
                     networkContext.fillStyle = 'white';
@@ -392,7 +366,6 @@
                     networkContext.lineWidth = 1.5;
                     networkContext.stroke();
                     
-                    // 节点内部填充
                     networkContext.beginPath();
                     networkContext.arc(x, y, nodeRadius * 0.7, 0, Math.PI * 2);
                     networkContext.fillStyle = colors.base;
@@ -403,7 +376,24 @@
             });
         }
 
-        // 初始化
+        drawingCanvas.addEventListener('mousedown', startDrawing);
+        drawingCanvas.addEventListener('mousemove', draw);
+        drawingCanvas.addEventListener('mouseup', stopDrawing);
+        drawingCanvas.addEventListener('mouseout', stopDrawing);
+
+        drawingCanvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            startDrawing({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+
+        drawingCanvas.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            draw({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+
+        drawingCanvas.addEventListener('touchend', stopDrawing);
+        drawingCanvas.addEventListener('touchcancel', stopDrawing);
+
         initGrid();
         drawNetwork();
     </script>
