@@ -177,6 +177,7 @@
                     <th>ID</th>
                     <th>时间</th>
                     <th>状态</th>
+                    <th>项目负责人</th>
                 </tr>
             </thead>
             <tbody id="queueTableBody">
@@ -193,11 +194,9 @@
 
     <script>
         // 管理员需要修改的部分：初始化表格的项目数据
-        // 修改 projectData 数组中的时间和状态值
+        // 修改 projectData 数组中的时间、状态和负责人值
         const projectData = [
-            { id: 00187765, time: '10:00 - 10:30', status: 'green' },
-            { id: 00187766, time: '10:40 - 12:16', status: 'green' },
-            { id: 00187767, time: '12:30 - 13:**', status: 'red', reason: '项目终止' },
+            { id: *, time: '**', status: '*', leader: '**' },
             // 添加更多项目
         ];
 
@@ -224,6 +223,10 @@
 
             statusCell.appendChild(statusLight);
             row.appendChild(statusCell);
+
+            const leaderCell = document.createElement('td');
+            leaderCell.innerText = project.leader;
+            row.appendChild(leaderCell);
 
             tableBody.appendChild(row);
         }
