@@ -121,14 +121,6 @@
             background-color: #6bcf63;
         }
 
-        .status-black {
-            background-color: #000;
-        }
-
-        .status-gray {
-            background-color: #aaa;
-        }
-
         .tooltip {
             visibility: hidden;
             background-color: #333;
@@ -183,12 +175,14 @@
         .status-item {
             margin-bottom: 10px;
             font-size: 18px;
-            display: flex;
-            align-items: center;
         }
 
-        .status-item span {
-            margin-left: 10px;
+        .status-online {
+            color: #000;
+        }
+
+        .status-offline {
+            color: #aaa;
         }
     </style>
 </head>
@@ -241,9 +235,9 @@
         // 管理员需要修改的部分：初始化打手状态数据
         // 修改 statusData 数组中的打手名称和状态
         const statusData = [
-            { name: 'Leon', online: true },
-            { name: 'Haoyu', online: false },
-            { name: 'pilang', online: false },
+            { name: '打手A', online: true },
+            { name: '打手B', online: false },
+            { name: '打手C', online: true },
             // 添加更多打手
         ];
 
@@ -324,13 +318,8 @@
             statusList.innerHTML = '';
             statusData.forEach(status => {
                 const statusItem = document.createElement('div');
-                statusItem.className = 'status-item';
-                const statusLight = document.createElement('div');
-                statusLight.className = 'status-light ' + (status.online ? 'status-black' : 'status-gray');
-                statusItem.appendChild(statusLight);
-                const statusText = document.createElement('span');
-                statusText.innerText = status.name + ' - ' + (status.online ? '在线' : '不在线');
-                statusItem.appendChild(statusText);
+                statusItem.className = 'status-item ' + (status.online ? 'status-online' : 'status-offline');
+                statusItem.innerText = status.name;
                 statusList.appendChild(statusItem);
             });
         }
