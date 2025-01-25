@@ -13,7 +13,7 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
         }
 
@@ -25,6 +25,16 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             max-width: 800px;
             width: 100%;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .status-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 200px;
             position: relative;
         }
 
@@ -111,6 +121,14 @@
             background-color: #6bcf63;
         }
 
+        .status-black {
+            background-color: #000;
+        }
+
+        .status-gray {
+            background-color: #aaa;
+        }
+
         .tooltip {
             visibility: hidden;
             background-color: #333;
@@ -161,6 +179,17 @@
             font-size: 16px;
             color: #333;
         }
+
+        .status-item {
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-item span {
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -192,12 +221,30 @@
         </div>
     </div>
 
+    <div class="status-container">
+        <h2>打手状态</h2>
+        <div id="statusList">
+            <!-- 打手状态将由JavaScript动态生成 -->
+        </div>
+    </div>
+
     <script>
         // 管理员需要修改的部分：初始化表格的项目数据
         // 修改 projectData 数组中的时间、状态和负责人值
         const projectData = [
-            { id: 0000001, time: '13:38-13:50', status: 'yellow', leader: 'Leon' },
+            { id: 1, time: '10:00 - 11:00', status: 'green', leader: '张三' },
+            { id: 2, time: '11:00 - 12:00', status: 'yellow', leader: '李四' },
+            { id: 3, time: '12:00 - 13:00', status: 'red', reason: '网络故障', leader: '王五' },
             // 添加更多项目
+        ];
+
+        // 管理员需要修改的部分：初始化打手状态数据
+        // 修改 statusData 数组中的打手名称和状态
+        const statusData = [
+            { name: 'Leon', online: true },
+            { name: 'Haoyu', online: false },
+            { name: 'pilang', online: false },
+            // 添加更多打手
         ];
 
         function addTableRow(project) {
@@ -272,8 +319,25 @@
             }
         }
 
-        // 初始化表格
+        function updateStatusList() {
+            const statusList = document.getElementById('statusList');
+            statusList.innerHTML = '';
+            statusData.forEach(status => {
+                const statusItem = document.createElement('div');
+                statusItem.className = 'status-item';
+                const statusLight = document.createElement('div');
+                statusLight.className = 'status-light ' + (status.online ? 'status-black' : 'status-gray');
+                statusItem.appendChild(statusLight);
+                const statusText = document.createElement('span');
+                statusText.innerText = status.name + ' - ' + (status.online ? '在线' : '不在线');
+                statusItem.appendChild(statusText);
+                statusList.appendChild(statusItem);
+            });
+        }
+
+        // 初始化表格和打手状态
         projectData.forEach(project => addTableRow(project));
+        updateStatusList();
     </script>
 </body>
 
