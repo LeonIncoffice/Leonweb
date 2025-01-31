@@ -5,7 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册 - Leon 的网站</title>
     <style>
-        /* ...existing styles... */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +95,7 @@
             const password = document.getElementById('password').value;
 
             responseDiv.textContent = '正在提交...';
+            responseDiv.className = 'response';
 
             try {
                 const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/register', {
@@ -39,22 +106,21 @@
                     body: JSON.stringify({ username, email, password })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
                 const data = await response.json();
+                
                 if (data.success) {
                     responseDiv.textContent = data.message;
-                    // 注册成功后重定向
+                    responseDiv.classList.add('success');
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 2000);
                 } else {
-                    responseDiv.textContent = '注册失败: ' + data.message;
+                    responseDiv.textContent = data.message;
+                    responseDiv.classList.add('error');
                 }
             } catch (error) {
                 responseDiv.textContent = '注册失败: ' + error.message;
+                responseDiv.classList.add('error');
                 console.error('注册错误:', error);
             }
         });
