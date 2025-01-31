@@ -98,6 +98,7 @@
             responseDiv.className = 'response';
 
             try {
+                console.log('发送请求到:', 'https://morning-snow-5502.leonhelp999-org.workers.dev/register');
                 const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/register', {
                     method: 'POST',
                     headers: {
@@ -106,7 +107,9 @@
                     body: JSON.stringify({ username, email, password })
                 });
 
+                console.log('响应状态:', response.status);
                 const data = await response.json();
+                console.log('响应数据:', data);
                 
                 if (data.success) {
                     responseDiv.textContent = data.message;
