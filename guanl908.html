@@ -403,9 +403,10 @@
                 document.getElementById('login-page').classList.add('hidden');
                 document.getElementById('admin-page').classList.remove('hidden');
                 // 加载初始数据
-                fetchUserIP(); // 先获取当前用户IP
-                loadMessages();
-                loadIPList();
+                fetchUserIP().then(() => {
+                    loadMessages();
+                    loadIPList();
+                });
                 
                 // 显示IP管理标签页
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -433,84 +434,93 @@
         
         // 获取用户IP
         async function fetchUserIP() {
-            try {
-                // 显示加载状态
-                document.getElementById('user-ip').textContent = '正在获取IP...';
-                
-                // 尝试多个IP获取服务
-                let response;
-                let data;
-                let errorMessages = [];
-                
-                // 第一种方法：使用ipify
+            return new Promise(async (resolve) => {
                 try {
-                    response = await fetch('https://api.ipify.org?format=json', { timeout: 5000 });
-                    data = await response.json();
-                    if (data && data.ip) {
-                        userIP = data.ip;
-                        document.getElementById('user-ip').textContent = userIP;
-                        // 检查当前IP是否需要显示协议
-                        checkAgreementStatus(userIP);
-                        return;
+                    // 显示加载状态
+                    document.getElementById('user-ip').textContent = '正在获取IP...';
+                    
+                    // 尝试多个IP获取服务
+                    let response;
+                    let data;
+                    let errorMessages = [];
+                    
+                    // 第一种方法：使用ipify
+                    try {
+                        response = await fetch('https://api.ipify.org?format=json', { timeout: 5000 });
+                        data = await response.json();
+                        if (data && data.ip) {
+                            userIP = data.ip;
+                            document.getElementById('user-ip').textContent = userIP;
+                            resolve(userIP);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log('ipify服务获取IP失败，尝试备选方法', e);
+                        errorMessages.push(`ipify: ${e.message}`);
                     }
-                } catch (e) {
-                    console.log('ipify服务获取IP失败，尝试备选方法', e);
-                    errorMessages.push(`ipify: ${e.message}`);
-                }
-                
-                // 第二种方法：使用ipinfo.io
-                try {
-                    response = await fetch('https://ipinfo.io/json', { timeout: 5000 });
-                    data = await response.json();
-                    if (data && data.ip) {
-                        userIP = data.ip;
-                        document.getElementById('user-ip').textContent = userIP;
-                        // 检查当前IP是否需要显示协议
-                        checkAgreementStatus(userIP);
-                        return;
+                    
+                    // 第二种方法：使用ipinfo.io
+                    try {
+                        response = await fetch('https://ipinfo.io/json', { timeout: 5000 });
+                        data = await response.json();
+                        if (data && data.ip) {
+                            userIP = data.ip;
+                            document.getElementById('user-ip').textContent = userIP;
+                            resolve(userIP);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log('ipinfo服务获取IP失败，尝试备选方法', e);
+                        errorMessages.push(`ipinfo: ${e.message}`);
                     }
-                } catch (e) {
-                    console.log('ipinfo服务获取IP失败，尝试备选方法', e);
-                    errorMessages.push(`ipinfo: ${e.message}`);
-                }
-                
-                // 第三种方法：使用cloudflare worker自己的服务
-                try {
-                    response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/get-client-ip', { timeout: 5000 });
-                    data = await response.json();
-                    if (data && data.ip) {
-                        userIP = data.ip;
-                        document.getElementById('user-ip').textContent = userIP;
-                        // 检查当前IP是否需要显示协议
-                        checkAgreementStatus(userIP);
-                        return;
+                    
+                    // 第三种方法：使用cloudflare worker自己的服务
+                    try {
+                        response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/get-client-ip', { timeout: 5000 });
+                        data = await response.json();
+                        if (data && data.ip) {
+                            userIP = data.ip;
+                            document.getElementById('user-ip').textContent = userIP;
+                            resolve(userIP);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log('Worker服务获取IP失败', e);
+                        errorMessages.push(`Worker: ${e.message}`);
                     }
-                } catch (e) {
-                    console.log('Worker服务获取IP失败', e);
-                    errorMessages.push(`Worker: ${e.message}`);
+                    
+                    // 所有方法都失败，尝试使用本地IP
+                    userIP = '127.0.0.1';
+                    document.getElementById('user-ip').textContent = userIP + ' (本地IP)';
+                    console.warn('使用本地IP作为备选');
+                    
+                    // 显示详细错误信息
+                    console.error('所有IP获取方法均失败:', errorMessages.join('; '));
+                    
+                    // 返回本地IP
+                    resolve(userIP);
+                    
+                    // 5秒后自动重试
+                    setTimeout(() => {
+                        console.log('自动重试获取IP...');
+                        fetchUserIP().then(() => {
+                            if (userIP && userIP !== '无法获取IP' && userIP !== '正在获取IP...') {
+                                checkAgreementForCurrentIP();
+                            }
+                        });
+                    }, 5000);
+                } catch (error) {
+                    console.error('获取IP失败:', error);
+                    document.getElementById('user-ip').textContent = '无法获取IP';
+                    
+                    // 显示重试按钮
+                    const userIpElement = document.getElementById('user-ip');
+                    userIpElement.innerHTML = `无法获取IP <button onclick="fetchUserIP().then(() => { if (userIP) { checkAgreementForCurrentIP(); } })" style="padding: 2px 5px; font-size: 12px; margin-left: 5px;">重试</button>`;
+                    
+                    // 即使失败也要解析Promise
+                    resolve(null);
                 }
-                
-                // 所有方法都失败，尝试使用本地IP
-                userIP = '127.0.0.1';
-                document.getElementById('user-ip').textContent = userIP + ' (本地IP)';
-                console.warn('使用本地IP作为备选');
-                
-                // 显示详细错误信息
-                console.error('所有IP获取方法均失败:', errorMessages.join('; '));
-                
-                // 5秒后自动重试
-                setTimeout(() => {
-                    console.log('自动重试获取IP...');
-                    fetchUserIP();
-                }, 5000);
-            } catch (error) {
-                console.error('获取IP失败:', error);
-                document.getElementById('user-ip').textContent = '无法获取IP';
-                
-                // 显示重试按钮
-                const userIpElement = document.getElementById('user-ip');
-                userIpElement.innerHTML = `无法获取IP <button onclick="fetchUserIP()" style="padding: 2px 5px; font-size: 12px; margin-left: 5px;">重试</button>`;
-            }
+            });
         }
         
         // 加载IP列表
@@ -1275,7 +1285,12 @@
 
         // 页面加载时获取IP
         document.addEventListener('DOMContentLoaded', function() {
-            fetchUserIP();
+            fetchUserIP().then(() => {
+                // 获取IP后检查协议状态
+                if (userIP && userIP !== '无法获取IP' && userIP !== '正在获取IP...') {
+                    checkAgreementForCurrentIP();
+                }
+            });
             
             // 添加自动刷新IP列表的定时器（每60秒刷新一次）
             if (document.getElementById('admin-page').classList.contains('hidden') === false) {
@@ -1315,6 +1330,56 @@
                 debugResponseDiv.innerHTML = `<p>检查失败: ${error.message}</p>`;
             }
         });
+
+        // 检查当前IP的协议状态
+        function checkAgreementForCurrentIP() {
+            if (!userIP || userIP === '无法获取IP' || userIP === '正在获取IP...') {
+                console.log('跳过协议检查，IP无效:', userIP);
+                return;
+            }
+            
+            // 检查协议状态
+            fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/check-agreement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ip: userIP }),
+                timeout: 8000
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`服务器返回错误: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.shouldShowAgreement) {
+                    document.getElementById('agreement-overlay').style.display = 'flex';
+                    
+                    // 倒计时
+                    let countdown = 3;
+                    const countdownElement = document.getElementById('countdown');
+                    countdownElement.textContent = countdown;
+                    countdownElement.style.display = 'block';
+                    
+                    const timer = setInterval(() => {
+                        countdown--;
+                        countdownElement.textContent = countdown;
+                        
+                        if (countdown <= 0) {
+                            clearInterval(timer);
+                            document.getElementById('reject-btn').disabled = false;
+                            document.getElementById('accept-btn').disabled = false;
+                            countdownElement.style.display = 'none';
+                        }
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                console.error('检查协议状态失败:', error);
+            });
+        }
     </script>
 </body>
 
