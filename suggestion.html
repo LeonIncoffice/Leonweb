@@ -11,11 +11,7 @@
             background-color: #f5f5f5;
             color: #333;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            padding: 0;
         }
 
         .container {
@@ -23,12 +19,13 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
+            max-width: 800px;
+            width: 90%;
+            margin: 20px auto;
         }
 
-        h1 {
+        h1, h2, h3 {
+            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -55,6 +52,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin: 5px 0;
         }
 
         button:hover {
@@ -73,7 +71,8 @@
 
 <body>
     <div class="container">
-        <h1>提交建议</h1>
+        <h1>反馈系统</h1>
+        
         <form id="suggestionForm">
             <textarea id="suggestion" placeholder="请输入您的建议..."></textarea>
             <button type="submit">提交</button>
@@ -82,10 +81,39 @@
     </div>
 
     <script>
+        // 记录用户IP
+        let userIP = '';
+        
+        // 获取用户IP
+        async function fetchUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                userIP = data.ip;
+                
+                // 将IP发送到服务器
+                await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/record-ip', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ip: userIP })
+                });
+            } catch (error) {
+                console.error('获取IP失败:', error);
+            }
+        }
+
+        // 提交建议表单
         document.getElementById('suggestionForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const responseDiv = document.getElementById('response');
             const suggestion = document.getElementById('suggestion').value;
+
+            if (!suggestion.trim()) {
+                responseDiv.textContent = '请输入建议内容';
+                return;
+            }
 
             responseDiv.textContent = '正在提交...';
 
@@ -95,13 +123,19 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ suggestion })
+                    body: JSON.stringify({ suggestion, ip: userIP })
                 });
                 const data = await response.json();
                 responseDiv.textContent = data.message;
+                document.getElementById('suggestion').value = '';
             } catch (error) {
                 responseDiv.textContent = '提交失败: ' + error;
             }
+        });
+        
+        // 页面加载时获取IP
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUserIP();
         });
     </script>
 </body>
