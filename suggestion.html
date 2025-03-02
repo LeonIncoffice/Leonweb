@@ -66,6 +66,57 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        .ip-info {
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .message-list {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .message-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message-content {
+            margin-bottom: 10px;
+        }
+
+        .message-date {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .message-reply {
+            background-color: #e8f4ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #007BFF;
+        }
+
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            color: #777;
+        }
+
+        .toggle-button {
+            background-color: #6c757d;
+            margin: 20px auto;
+            display: block;
+        }
     </style>
 </head>
 
@@ -78,29 +129,87 @@
             <button type="submit">提交</button>
         </form>
         <div class="response" id="response"></div>
+        <div class="ip-info" id="ip-info">正在获取您的IP...</div>
+        
+        <button id="toggle-messages" class="toggle-button">查看历史留言和回复</button>
+        
+        <div class="message-list" id="message-list" style="display: none;">
+            <div class="loading" id="loading-messages">正在加载留言...</div>
+        </div>
     </div>
 
     <script>
         // 记录用户IP
         let userIP = '';
         
-        // 获取用户IP
+        // 获取用户IP - 使用多种方法提高成功率
         async function fetchUserIP() {
+            const ipInfo = document.getElementById('ip-info');
+            ipInfo.textContent = '正在获取您的IP...';
+            
             try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                userIP = data.ip;
+                // 首先尝试使用Cloudflare Workers自己的API
+                const cfResponse = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/get-client-ip');
+                if (cfResponse.ok) {
+                    const cfData = await cfResponse.json();
+                    if (cfData.ip && cfData.ip !== '未知IP') {
+                        userIP = cfData.ip;
+                        ipInfo.textContent = `您的IP: ${userIP}`;
+                        return;
+                    }
+                }
                 
-                // 将IP发送到服务器
+                // 如果Cloudflare API失败，尝试ipify
+                const ipifyResponse = await fetch('https://api.ipify.org?format=json');
+                if (ipifyResponse.ok) {
+                    const ipifyData = await ipifyResponse.json();
+                    if (ipifyData.ip) {
+                        userIP = ipifyData.ip;
+                        ipInfo.textContent = `您的IP: ${userIP}`;
+                        
+                        // 将IP发送到服务器
+                        await recordIP(userIP);
+                        return;
+                    }
+                }
+                
+                // 如果ipify也失败，尝试其他服务
+                const ipApiResponse = await fetch('https://ipapi.co/json/');
+                if (ipApiResponse.ok) {
+                    const ipApiData = await ipApiResponse.json();
+                    if (ipApiData.ip) {
+                        userIP = ipApiData.ip;
+                        ipInfo.textContent = `您的IP: ${userIP}`;
+                        
+                        // 将IP发送到服务器
+                        await recordIP(userIP);
+                        return;
+                    }
+                }
+                
+                // 所有方法都失败
+                ipInfo.textContent = '无法获取您的IP，但您仍可以提交反馈';
+                
+            } catch (error) {
+                console.error('获取IP失败:', error);
+                ipInfo.textContent = '无法获取您的IP，但您仍可以提交反馈';
+            }
+        }
+        
+        // 记录IP到服务器
+        async function recordIP(ip) {
+            if (!ip) return;
+            
+            try {
                 await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/record-ip', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ ip: userIP })
+                    body: JSON.stringify({ ip: ip })
                 });
             } catch (error) {
-                console.error('获取IP失败:', error);
+                console.error('记录IP失败:', error);
             }
         }
 
@@ -112,10 +221,12 @@
 
             if (!suggestion.trim()) {
                 responseDiv.textContent = '请输入建议内容';
+                responseDiv.style.display = 'block';
                 return;
             }
 
             responseDiv.textContent = '正在提交...';
+            responseDiv.style.display = 'block';
 
             try {
                 const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/submit-suggestion', {
@@ -125,11 +236,121 @@
                     },
                     body: JSON.stringify({ suggestion, ip: userIP })
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`服务器返回错误: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 responseDiv.textContent = data.message;
                 document.getElementById('suggestion').value = '';
+                
+                // 刷新留言列表（如果已显示）
+                if (document.getElementById('message-list').style.display !== 'none') {
+                    loadMessages();
+                }
             } catch (error) {
-                responseDiv.textContent = '提交失败: ' + error;
+                responseDiv.textContent = '提交失败: ' + error.message;
+            }
+        });
+        
+        // 加载留言和回复
+        async function loadMessages() {
+            const messageList = document.getElementById('message-list');
+            const loadingElement = document.getElementById('loading-messages');
+            
+            loadingElement.style.display = 'block';
+            
+            try {
+                const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/view-suggestions');
+                
+                if (!response.ok) {
+                    throw new Error(`服务器返回错误: ${response.status}`);
+                }
+                
+                // 获取响应文本用于调试
+                const responseText = await response.text();
+                
+                // 尝试解析JSON
+                let messages;
+                try {
+                    messages = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('JSON解析失败:', parseError);
+                    throw new Error(`无法解析服务器响应`);
+                }
+                
+                // 确保messages是数组
+                if (!Array.isArray(messages)) {
+                    console.error('收到的数据不是数组:', messages);
+                    throw new Error('服务器返回的数据格式不正确');
+                }
+                
+                // 清除加载提示
+                loadingElement.style.display = 'none';
+                
+                // 清除现有留言
+                const existingMessages = messageList.querySelectorAll('.message-item');
+                existingMessages.forEach(item => item.remove());
+                
+                if (messages.length === 0) {
+                    const noMessagesElement = document.createElement('div');
+                    noMessagesElement.className = 'loading';
+                    noMessagesElement.textContent = '暂无留言';
+                    messageList.appendChild(noMessagesElement);
+                    return;
+                }
+                
+                // 按时间倒序排序，最新的在前面
+                messages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                // 显示留言
+                messages.forEach(msg => {
+                    const messageItem = document.createElement('div');
+                    messageItem.className = 'message-item';
+                    
+                    const content = document.createElement('div');
+                    content.className = 'message-content';
+                    content.textContent = msg.content || msg;
+                    
+                    const date = document.createElement('div');
+                    date.className = 'message-date';
+                    date.textContent = msg.timestamp ? new Date(msg.timestamp).toLocaleString('zh-CN') : '未知时间';
+                    
+                    messageItem.appendChild(content);
+                    messageItem.appendChild(date);
+                    
+                    // 添加回复区域
+                    if (msg.replies && msg.replies.length > 0) {
+                        msg.replies.forEach(reply => {
+                            const replyDiv = document.createElement('div');
+                            replyDiv.className = 'message-reply';
+                            replyDiv.innerHTML = `<strong>管理员回复 (${new Date(reply.timestamp).toLocaleString('zh-CN')})：</strong> ${reply.content}`;
+                            messageItem.appendChild(replyDiv);
+                        });
+                    }
+                    
+                    messageList.appendChild(messageItem);
+                });
+                
+            } catch (error) {
+                console.error('加载留言失败:', error);
+                loadingElement.textContent = `加载失败: ${error.message}`;
+            }
+        }
+        
+        // 切换留言列表显示
+        document.getElementById('toggle-messages').addEventListener('click', function() {
+            const messageList = document.getElementById('message-list');
+            const toggleButton = document.getElementById('toggle-messages');
+            
+            if (messageList.style.display === 'none') {
+                messageList.style.display = 'block';
+                toggleButton.textContent = '隐藏历史留言和回复';
+                loadMessages();
+            } else {
+                messageList.style.display = 'none';
+                toggleButton.textContent = '查看历史留言和回复';
             }
         });
         
