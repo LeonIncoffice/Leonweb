@@ -558,26 +558,7 @@
                 const data = await response.json();
                 ipResponseDiv.textContent = `协议已成功推送到 ${data.count} 个IP地址。总共有 ${data.pendingTotal} 个IP等待显示协议。`;
                 
-                // 显示本地协议弹窗（仅用于预览）
-                document.getElementById('agreement-overlay').style.display = 'flex';
-                
-                // 倒计时
-                let countdown = 3;
-                const countdownElement = document.getElementById('countdown');
-                countdownElement.textContent = countdown;
-                countdownElement.style.display = 'block';
-                
-                const timer = setInterval(() => {
-                    countdown--;
-                    countdownElement.textContent = countdown;
-                    
-                    if (countdown <= 0) {
-                        clearInterval(timer);
-                        document.getElementById('reject-btn').disabled = false;
-                        document.getElementById('accept-btn').disabled = false;
-                        countdownElement.style.display = 'none';
-                    }
-                }, 1000);
+                // 移除显示本地协议弹窗的代码，只显示成功消息
             } catch (error) {
                 console.error('推送协议失败:', error);
                 ipResponseDiv.textContent = `推送失败: ${error.message}`;
