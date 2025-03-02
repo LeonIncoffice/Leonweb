@@ -4,18 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>查看建议</title>
+    <title>系统管理</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f5f5f5;
             color: #333;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            padding: 20px;
         }
 
         .container {
@@ -23,51 +19,600 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 600px;
+            max-width: 900px;
             width: 100%;
+            margin: 0 auto;
         }
 
-        h1 {
+        h1, h2, h3 {
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .suggestions {
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        textarea {
+            resize: vertical;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            min-height: 100px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .response {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .admin-form {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .admin-form input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .admin-form button {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .message-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .message-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message-content {
+            margin-bottom: 5px;
+        }
+
+        .message-date {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .email-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .ip-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
             text-align: left;
         }
 
-        .suggestion {
-            background: #f1f1f1;
+        .ip-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .danger-btn {
+            background-color: #dc3545;
+        }
+
+        .danger-btn:hover {
+            background-color: #c82333;
+        }
+
+        .export-btn {
+            background-color: #28a745;
+        }
+
+        .export-btn:hover {
+            background-color: #218838;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .agreement-modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .agreement-content {
+            margin-bottom: 20px;
+        }
+
+        .agreement-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .agreement-buttons button {
+            width: 48%;
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-form input {
+            width: 100%;
             padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            width: 100%;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>查看建议</h1>
-        <div class="suggestions" id="suggestions"></div>
+    <div id="login-page" class="login-container">
+        <h2>管理员登录</h2>
+        <form id="login-form" class="login-form">
+            <input type="password" id="login-key" placeholder="请输入管理密钥">
+            <button type="submit">登录</button>
+        </form>
+        <div class="response" id="login-response"></div>
+    </div>
+
+    <div id="admin-page" class="hidden">
+        <div class="container">
+            <h1>系统管理面板</h1>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="messages">留言管理</div>
+                <div class="tab" data-tab="email">邮件推送</div>
+                <div class="tab" data-tab="ip">IP管理</div>
+                <div class="tab" data-tab="system">系统设置</div>
+            </div>
+            
+            <div class="tab-content active" id="messages-tab">
+                <div class="admin-section">
+                    <h2>留言管理</h2>
+                    <button id="view-messages-btn">刷新留言列表</button>
+                    <button id="export-messages-btn" class="export-btn">导出留言数据</button>
+                    <div class="message-list" id="message-list"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="email-tab">
+                <div class="admin-section">
+                    <h2>邮件推送</h2>
+                    <div class="email-form">
+                        <input type="text" id="email-subject" placeholder="邮件主题">
+                        <textarea id="email-content" placeholder="邮件内容..."></textarea>
+                        <button id="send-email-btn">发送邮件</button>
+                    </div>
+                    <div class="response" id="email-response"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="ip-tab">
+                <div class="admin-section">
+                    <h2>IP管理</h2>
+                    <button id="refresh-ip-btn">刷新IP列表</button>
+                    <button id="ip-push-btn">推送协议</button>
+                    <div class="ip-list" id="ip-list"></div>
+                    <div class="response" id="ip-response"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="system-tab">
+                <div class="admin-section">
+                    <h2>系统设置</h2>
+                    <h3>清除所有数据</h3>
+                    <p>请谨慎操作，此操作将删除所有数据且无法恢复。</p>
+                    <div class="admin-form">
+                        <input type="password" id="admin-key" placeholder="请再次输入管理密钥确认">
+                        <button id="clear-btn" class="danger-btn">清除所有数据</button>
+                    </div>
+                    <div class="response" id="admin-response"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay" id="agreement-overlay">
+        <div class="agreement-modal">
+            <h2>用户协议</h2>
+            <div class="countdown" id="countdown">3</div>
+            <div class="agreement-content">
+                <p>尊敬的用户，欢迎使用我们的服务。请仔细阅读以下协议内容：</p>
+                <p>1. 我们将收集您的IP地址用于服务改进和安全目的。</p>
+                <p>2. 您提交的反馈将被保存并可能用于服务改进。</p>
+                <p>3. 我们可能会通过您提供的联系方式向您发送通知。</p>
+                <p>4. 我们承诺保护您的个人信息安全，不会将其用于商业目的。</p>
+                <p>5. 您有权随时要求删除您的个人信息。</p>
+                <!-- 更多协议内容 -->
+            </div>
+            <div class="agreement-buttons">
+                <button id="reject-btn" disabled>拒绝</button>
+                <button id="accept-btn" disabled>同意</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        async function fetchSuggestions() {
-            const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/view-suggestions');
-            const suggestions = await response.json();
-            const suggestionsDiv = document.getElementById('suggestions');
-            suggestionsDiv.innerHTML = '';
-            suggestions.forEach(suggestion => {
-                const suggestionDiv = document.createElement('div');
-                suggestionDiv.className = 'suggestion';
-                suggestionDiv.textContent = suggestion;
-                suggestionsDiv.appendChild(suggestionDiv);
+        // 管理密钥
+        const ADMIN_KEY = 'admin123';
+        
+        // 记录用户IP
+        let userIP = '';
+        let ipList = [];
+        
+        // 登录表单处理
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loginKey = document.getElementById('login-key').value;
+            const loginResponse = document.getElementById('login-response');
+            
+            if (loginKey === ADMIN_KEY) {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('admin-page').classList.remove('hidden');
+                // 加载初始数据
+                loadMessages();
+                loadIPList();
+            } else {
+                loginResponse.textContent = '密钥错误，请重试';
+                loginResponse.style.display = 'block';
+            }
+        });
+        
+        // 切换标签页
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
             });
+        });
+        
+        // 获取用户IP
+        async function fetchUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                userIP = data.ip;
+            } catch (error) {
+                console.error('获取IP失败:', error);
+            }
         }
+        
+        // 加载IP列表
+        async function loadIPList() {
+            try {
+                const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/get-ips');
+                ipList = await response.json();
+                
+                const ipListElement = document.getElementById('ip-list');
+                ipListElement.innerHTML = '';
+                
+                if (ipList.length === 0) {
+                    ipListElement.innerHTML = '<p>暂无记录的IP</p>';
+                    return;
+                }
+                
+                ipList.forEach(ip => {
+                    const ipItem = document.createElement('div');
+                    ipItem.className = 'ip-item';
+                    ipItem.textContent = ip;
+                    ipListElement.appendChild(ipItem);
+                });
+            } catch (error) {
+                console.error('加载IP列表失败:', error);
+                document.getElementById('ip-list').innerHTML = '<p>加载IP列表失败: ' + error + '</p>';
+            }
+        }
+        
+        // 刷新IP列表
+        document.getElementById('refresh-ip-btn').addEventListener('click', loadIPList);
+        
+        // 加载留言
+        async function loadMessages() {
+            const messageList = document.getElementById('message-list');
+            messageList.innerHTML = '<p>加载中...</p>';
 
-        fetchSuggestions();
+            try {
+                const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/view-suggestions');
+                const messages = await response.json();
+                
+                messageList.innerHTML = '';
+                
+                if (messages.length === 0) {
+                    messageList.innerHTML = '<p>暂无留言</p>';
+                    return;
+                }
+                
+                messages.forEach(msg => {
+                    const messageItem = document.createElement('div');
+                    messageItem.className = 'message-item';
+                    
+                    const content = document.createElement('div');
+                    content.className = 'message-content';
+                    content.textContent = msg.content || msg;
+                    
+                    const date = document.createElement('div');
+                    date.className = 'message-date';
+                    date.textContent = msg.timestamp ? new Date(msg.timestamp).toLocaleString('zh-CN') : '未知时间';
+                    
+                    const ip = document.createElement('div');
+                    ip.className = 'message-date';
+                    ip.textContent = msg.ip ? `IP: ${msg.ip}` : '';
+                    
+                    messageItem.appendChild(content);
+                    messageItem.appendChild(date);
+                    if (msg.ip) messageItem.appendChild(ip);
+                    
+                    messageList.appendChild(messageItem);
+                });
+            } catch (error) {
+                messageList.innerHTML = '<p>加载失败: ' + error + '</p>';
+            }
+        }
+        
+        // 刷新留言列表
+        document.getElementById('view-messages-btn').addEventListener('click', loadMessages);
+        
+        // 导出留言数据
+        document.getElementById('export-messages-btn').addEventListener('click', async function() {
+            try {
+                const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/view-suggestions');
+                const messages = await response.json();
+                
+                // 创建下载链接
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(messages, null, 2));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "messages_export_" + new Date().toISOString().slice(0, 10) + ".json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            } catch (error) {
+                alert('导出失败: ' + error);
+            }
+        });
+        
+        // 发送邮件
+        document.getElementById('send-email-btn').addEventListener('click', async function () {
+            const emailResponseDiv = document.getElementById('email-response');
+            const subject = document.getElementById('email-subject').value;
+            const content = document.getElementById('email-content').value;
+            
+            if (!subject.trim() || !content.trim()) {
+                emailResponseDiv.textContent = '请输入邮件主题和内容';
+                emailResponseDiv.style.display = 'block';
+                return;
+            }
+            
+            emailResponseDiv.textContent = '邮件发送中...';
+            emailResponseDiv.style.display = 'block';
+
+            try {
+                const response = await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ subject, content })
+                });
+                const data = await response.json();
+                emailResponseDiv.textContent = data.message || '邮件发送成功！';
+                
+                // 清空表单
+                document.getElementById('email-subject').value = '';
+                document.getElementById('email-content').value = '';
+            } catch (error) {
+                emailResponseDiv.textContent = '发送失败: ' + error;
+            }
+        });
+        
+        // 推送协议
+        document.getElementById('ip-push-btn').addEventListener('click', function () {
+            const ipResponseDiv = document.getElementById('ip-response');
+            ipResponseDiv.textContent = '正在推送协议...';
+            ipResponseDiv.style.display = 'block';
+            
+            // 显示协议弹窗
+            document.getElementById('agreement-overlay').style.display = 'flex';
+            
+            // 倒计时
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = countdown;
+            countdownElement.style.display = 'block';
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('reject-btn').disabled = false;
+                    document.getElementById('accept-btn').disabled = false;
+                    countdownElement.style.display = 'none';
+                }
+            }, 1000);
+            
+            ipResponseDiv.textContent = '协议已推送';
+        });
+        
+        // 拒绝协议
+        document.getElementById('reject-btn').addEventListener('click', function() {
+            document.getElementById('agreement-overlay').style.display = 'none';
+            alert('您已拒绝协议，部分功能可能无法使用。');
+        });
+        
+        // 接受协议
+        document.getElementById('accept-btn').addEventListener('click', async function() {
+            document.getElementById('agreement-overlay').style.display = 'none';
+            
+            try {
+                await fetch('https://morning-snow-5502.leonhelp999-org.workers.dev/accept-agreement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ip: userIP })
+                });
+                
+                alert('感谢您接受协议！');
+            } catch (error) {
+                console.error('记录协议接受状态失败:', error);
+            }
+        });
+        
+        // 清除所有数据
+        document.getElementById('clear-btn').addEventListener('click', async function() {
+            const adminKey = document.getElementById('admin-key').value;
+            const adminResponseDiv = document.getElementById('admin-response');
+            
+            if (!adminKey) {
+                adminResponseDiv.textContent = '请输入管理密钥';
+                adminResponseDiv.style.display = 'block';
+                return;
+            }
+            
+            if (adminKey !== ADMIN_KEY) {
+                adminResponseDiv.textContent = '管理密钥错误';
+                adminResponseDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!confirm('确定要清除所有数据吗？此操作不可恢复！')) {
+                return;
+            }
+            
+            adminResponseDiv.textContent = '正在处理...';
+            adminResponseDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch(`https://morning-snow-5502.leonhelp999-org.workers.dev/clear-data?key=${adminKey}`);
+                const data = await response.json();
+                
+                adminResponseDiv.textContent = data.message || '所有数据已清除';
+                document.getElementById('admin-key').value = '';
+                
+                // 刷新数据
+                loadIPList();
+                loadMessages();
+            } catch (error) {
+                adminResponseDiv.textContent = '操作失败: ' + error;
+            }
+        });
+        
+        // 页面加载时获取IP
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUserIP();
+        });
     </script>
 </body>
 
-</html>
+</html> 
