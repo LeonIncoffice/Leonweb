@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优品商城 - 品质生活从这里开始</title>
+    <!-- 预加载CSS -->
+    <link rel="preload" href="sshtudex.css" as="style">
+    <link rel="stylesheet" href="sshtudex.css">
+    <!-- 添加描述和关键词 -->
+    <meta name="description" content="优品商城 - 提供高品质商品，享受便捷购物体验">
+    <meta name="keywords" content="优品商城,网上购物,电子商务,品质生活">
+    <!-- 预加载JavaScript -->
+    <link rel="preload" href="script.js" as="script">
+    <!-- 添加DNS预解析 -->
+    <link rel="dns-prefetch" href="https://via.placeholder.com">
+    <!-- 添加字体图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="desktop-view">
+    <!-- 顶部通知栏 -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-phone-alt"></i> 客服热线: 400-123-4567</span>
+                <span><i class="fas fa-envelope"></i> 客服邮箱: service@youpin.com</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fas fa-user"></i> 登录</a>
+                <a href="#"><i class="fas fa-user-plus"></i> 注册</a>
+                <a href="#"><i class="fas fa-list-ul"></i> 我的订单</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主导航栏 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>优品商城</h1>
+                    <p>品质生活从这里开始</p>
+                </div>
+                <div class="search-bar">
+                    <div class="search-category">
+                        <select id="category-select">
+                            <option value="all">全部分类</option>
+                            <option value="electronics">电子产品</option>
+                            <option value="clothing">服装鞋包</option>
+                            <option value="home">家居生活</option>
+                            <option value="beauty">美妆个护</option>
+                        </select>
+                    </div>
+                    <input type="text" id="search-input" placeholder="搜索商品..." autocomplete="off">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-cart">
+                    <a href="#" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-text">购物车</span>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 分类导航 -->
+    <nav class="category-nav">
+        <div class="container">
+            <ul class="category-list">
+                <li><a href="#" class="active">首页</a></li>
+                <li><a href="#">新品上市</a></li>
+                <li><a href="#">热销商品</a></li>
+                <li><a href="#">限时特惠</a></li>
+                <li><a href="#">电子产品</a></li>
+                <li><a href="#">服装鞋包</a></li>
+                <li><a href="#">家居生活</a></li>
+                <li><a href="#">美妆个护</a></li>
+                <li><a href="#">食品生鲜</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main>
+        <div class="container">
+            <!-- 轮播广告 -->
+            <div class="banner-slider">
+                <div class="banner active">
+                    <img src="https://via.placeholder.com/1200x400/0078d7/ffffff?text=优惠活动：全场满300减50" alt="优惠活动">
+                    <div class="banner-content">
+                        <h2>年中大促销</h2>
+                        <p>全场商品满300减50，限时特惠</p>
+                        <a href="#" class="btn">立即抢购</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品分类展示 -->
+            <div class="featured-categories">
+                <h2 class="section-title">热门分类</h2>
+                <div class="category-grid">
+                    <a href="#" class="category-item">
+                        <img src="https://via.placeholder.com/200x200/ff4081/ffffff?text=电子产品" alt="电子产品">
+                        <span>电子产品</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <img src="https://via.placeholder.com/200x200/4caf50/ffffff?text=服装鞋包" alt="服装鞋包">
+                        <span>服装鞋包</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <img src="https://via.placeholder.com/200x200/ff9800/ffffff?text=家居生活" alt="家居生活">
+                        <span>家居生活</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <img src="https://via.placeholder.com/200x200/9c27b0/ffffff?text=美妆个护" alt="美妆个护">
+                        <span>美妆个护</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 热销商品 -->
+            <div class="featured-products">
+                <h2 class="section-title">热销商品</h2>
+                <div class="product-filter">
+                    <button class="filter-btn active" data-filter="all">全部</button>
+                    <button class="filter-btn" data-filter="new">新品</button>
+                    <button class="filter-btn" data-filter="hot">热销</button>
+                    <button class="filter-btn" data-filter="discount">特惠</button>
+                </div>
+                <div id="product-list" class="product-list"></div>
+                <div class="load-more">
+                    <button class="btn load-more-btn">加载更多</button>
+                </div>
+            </div>
+
+            <!-- 品牌推荐 -->
+            <div class="brand-showcase">
+                <h2 class="section-title">品牌推荐</h2>
+                <div class="brand-list">
+                    <div class="brand-item">
+                        <img src="https://via.placeholder.com/150x80/333333/ffffff?text=品牌1" alt="品牌1">
+                    </div>
+                    <div class="brand-item">
+                        <img src="https://via.placeholder.com/150x80/333333/ffffff?text=品牌2" alt="品牌2">
+                    </div>
+                    <div class="brand-item">
+                        <img src="https://via.placeholder.com/150x80/333333/ffffff?text=品牌3" alt="品牌3">
+                    </div>
+                    <div class="brand-item">
+                        <img src="https://via.placeholder.com/150x80/333333/ffffff?text=品牌4" alt="品牌4">
+                    </div>
+                    <div class="brand-item">
+                        <img src="https://via.placeholder.com/150x80/333333/ffffff?text=品牌5" alt="品牌5">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 服务保障 -->
+    <section class="service-guarantee">
+        <div class="container">
+            <div class="service-list">
+                <div class="service-item">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>全国配送</h3>
+                    <p>快速配送到家</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>正品保障</h3>
+                    <p>品质保证</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>7天无理由退换</h3>
+                    <p>购物无忧</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>24小时客服</h3>
+                    <p>贴心服务</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司简介</a></li>
+                        <li><a href="#">招贤纳士</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>客户服务</h3>
+                    <ul>
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">售后服务</a></li>
+                        <li><a href="#">配送方式</a></li>
+                        <li><a href="#">支付方式</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>商家合作</h3>
+                    <ul>
+                        <li><a href="#">商家入驻</a></li>
+                        <li><a href="#">营销中心</a></li>
+                        <li><a href="#">物流服务</a></li>
+                        <li><a href="#">推广服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关注我们</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <div class="qrcode">
+                        <img src="https://via.placeholder.com/120x120" alt="扫码关注">
+                        <p>扫码关注公众号</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 优品商城 版权所有 | 备案号：粤ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="back-to-top" aria-label="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 客服浮窗 -->
+    <div class="customer-service" id="customer-service">
+        <button class="cs-button" id="cs-button" aria-label="联系客服">
+            <i class="fas fa-headset"></i>
+        </button>
+        <div class="cs-panel" id="cs-panel">
+            <div class="cs-header">
+                <h3>在线客服</h3>
+                <button class="cs-close" id="cs-close">&times;</button>
+            </div>
+            <div class="cs-body">
+                <p>您好，请问有什么可以帮助您的？</p>
+                <div class="cs-options">
+                    <button class="cs-option">商品咨询</button>
+                    <button class="cs-option">物流查询</button>
+                    <button class="cs-option">售后服务</button>
+                    <button class="cs-option">投诉建议</button>
+                </div>
+                <div class="cs-contact">
+                    <p><i class="fas fa-phone"></i> 客服热线：400-123-4567</p>
+                    <p><i class="far fa-clock"></i> 服务时间：9:00-22:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 延迟加载JavaScript -->
+    <script src="script.js" defer></script>
+</body>
+</html>
