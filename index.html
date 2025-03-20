@@ -8,33 +8,40 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
             margin: 0;
+            line-height: 1.5;
         }
 
         header {
             text-align: center;
-            background-color: #003366;
+            background-color: rgba(0, 0, 0, 0.8);
             color: #ffffff;
             padding: 20px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         nav {
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         nav ul {
             list-style-type: none;
             padding: 10px;
             text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         nav ul li {
@@ -44,13 +51,14 @@
 
         nav ul li a {
             text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            transition: color 0.3s;
+            color: #0066cc;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            font-size: 14px;
         }
 
         nav ul li a:hover {
-            color: #ff6b6b;
+            color: #0077ed;
         }
 
         .container {
@@ -58,13 +66,14 @@
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
-            padding: 20px;
+            padding: 30px;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
+            margin-bottom: 20px;
         }
 
         .content {
@@ -76,11 +85,14 @@
             float: left;
             margin-right: 20px;
             margin-bottom: 20px;
+            border-radius: 8px;
         }
 
         h2 {
-            color: #003366;
+            color: #1d1d1f;
             margin-top: 0;
+            font-weight: 600;
+            font-size: 28px;
         }
 
         .services {
@@ -88,39 +100,50 @@
         }
 
         .service-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: #f5f5f7;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
             margin-bottom: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .service-item h3 {
-            color: #007BFF;
+            color: #1d1d1f;
             margin-top: 0;
+            font-weight: 600;
+            font-size: 20px;
         }
 
         .service-item p {
             margin: 10px 0;
+            color: #515154;
+            font-size: 15px;
         }
 
         footer {
             text-align: center;
             margin-top: 40px;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-            font-size: 14px;
+            padding: 30px 20px;
+            background-color: #f5f5f7;
+            color: #86868b;
+            font-size: 12px;
+            border-top: 1px solid #d2d2d7;
         }
 
         a {
             text-decoration: none;
-            color: #ff6b6b;
-            transition: color 0.3s;
+            color: #0066cc;
+            transition: color 0.2s ease;
         }
 
         a:hover {
-            color: #f7d94e;
+            color: #0077ed;
         }
 
         /* 协议弹窗样式 */
@@ -130,25 +153,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .agreement-modal {
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 30px;
+            border-radius: 18px;
             max-width: 600px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .agreement-content {
             margin-bottom: 20px;
+            color: #1d1d1f;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .agreement-buttons {
@@ -158,43 +187,67 @@
 
         .agreement-buttons button {
             width: 48%;
-            background-color: #007BFF;
+            background-color: #0066cc;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
         }
 
         .agreement-buttons button:hover {
-            background-color: #0056b3;
+            background-color: #0077ed;
         }
 
         .agreement-buttons button:disabled {
-            background-color: #cccccc;
+            background-color: #d2d2d7;
             cursor: not-allowed;
         }
 
         #reject-btn {
-            background-color: #dc3545;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            border: 1px solid #d2d2d7;
         }
 
         #reject-btn:hover {
-            background-color: #c82333;
+            background-color: #e8e8ed;
         }
 
         #countdown {
             text-align: center;
             font-size: 24px;
             margin: 20px 0;
+            color: #1d1d1f;
+            font-weight: 600;
         }
 
         .user-info {
             text-align: right;
-            margin: 10px;
+            margin: 10px 20px;
+            font-size: 12px;
+            color: #86868b;
+        }
+        
+        .privacy-policy {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #d2d2d7;
+        }
+        
+        .privacy-policy h3 {
             font-size: 14px;
-            color: #666;
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+        
+        .privacy-policy p {
+            font-size: 12px;
+            color: #86868b;
+            line-height: 1.6;
         }
     </style>
 </head>
