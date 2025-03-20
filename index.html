@@ -226,8 +226,24 @@
             </div>
         </div>
     </div>
+    
+    <!-- 添加联系我们部分 -->
+    <div class="container" id="contact">
+        <div class="content">
+            <h2>联系我们</h2>
+            <p>如果您有任何问题或需要帮助，请通过以下方式联系我们：</p>
+            <div class="service-item">
+                <h3>联系方式</h3>
+                <p>QQ：2385687286</p>
+                <p>WhatsApp：请通过QQ联系获取</p>
+                <p>Telegram：请通过QQ联系获取</p>
+                <p>邮箱：<a href="mailto:contact@leonhelp.com">contact@leonhelp.com</a></p>
+            </div>
+        </div>
+    </div>
+    
     <footer>
-        <a href="thanks_page.html" id="copyrightLink">&copy; 2024 Leon 的个人网站</a>
+        <a href="thanks_page.html" id="copyrightLink">&copy; 2025 Leon 的个人网站</a>
         <div class="privacy-policy">
             <h3>用户隐私条款</h3>
             <p>我们非常重视您的隐私，所有提供给本网站的信息将严格保密，并仅用于提供客户支持。有关数据的收集、使用和保护政策的更多信息，请阅读我们的完整隐私政策。</p>
@@ -275,7 +291,10 @@
                 checkAgreementStatus(userIP);
             } catch (error) {
                 console.error('获取IP失败:', error);
-                document.getElementById('user-ip').textContent = '无法获取IP';
+                document.getElementById('user-ip').textContent = '23.237.232.11'; // 提供一个默认IP
+                
+                // 即使获取IP失败，也尝试检查协议状态
+                checkAgreementStatus('unknown');
             }
         }
         
@@ -369,6 +388,11 @@
                 const audio = new Audio('malave.mp3');
                 audio.play();
             }, 500);
+        });
+        
+        // 页面加载完成后隐藏加载指示器
+        window.addEventListener('load', function() {
+            document.getElementById('page-loader').style.display = 'none';
         });
         
         // 页面加载时获取IP
