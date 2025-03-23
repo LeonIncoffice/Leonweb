@@ -1,0 +1,8 @@
+proxies:
+  - name: "VN-tiktok专线"
+    type: ss
+    server: shhk1-08051752.666888.biz
+    port: 20506
+    cipher: aes-256-gcm
+    password: leontest100614
+    udp: true
