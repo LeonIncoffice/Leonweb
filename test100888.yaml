@@ -1,0 +1,11 @@
+proxies:
+  - name: "V2Ray-TCP-31158"
+    type: vmess
+    server: 92.118.190.96
+    port: 31158
+    uuid: 59bd87d2-4830-4e27-9d6b-aaa23d1c09e8
+    alterId: 0
+    cipher: auto
+    network: tcp
+    tls: false
+    udp: true
