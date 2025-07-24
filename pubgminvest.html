@@ -12,7 +12,7 @@
     </header>
     <main>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="根据投资号码搜索枪械">
+            <input type="text" id="searchInput" placeholder="根据投资号码搜索">
         </div>
         <section id="weapon-section" class="section">
             <h2>枪械投资</h2>
@@ -23,8 +23,11 @@
             <div id="itemContainer" class="card-container"></div>
         </section>
     </main>
-    <!-- 如需修改投资数据，可在此处通过 script 标签定义 window.weaponInvestments
-         和 window.itemInvestments 变量，pubgminvest.js 会自动读取 -->
+    <!--
+        如需修改投资数据，可在此处通过 script 标签定义
+        window.weaponInvestments 和 window.itemInvestments 变量，
+        pubgminvest.js 会自动读取这些值
+    -->
     <script>
         window.weaponInvestments = [
             {

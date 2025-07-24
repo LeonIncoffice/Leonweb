@@ -1,6 +1,7 @@
 // 管理员可在此处修改投资数据
-// 如果在 HTML 中通过 script 标签提前定义 window.weaponInvestments，
-// 这里会使用该自定义数据，否则使用默认值
+// 如果希望在 HTML 中单独维护数据，可在页面的 <script> 标签中
+// 定义 window.weaponInvestments 和 window.itemInvestments 变量，
+// 本脚本会自动读取这些值。未定义时将使用下面的默认列表
 const weaponInvestments = window.weaponInvestments || [
     {
         id: 'W001',
@@ -21,7 +22,7 @@ const weaponInvestments = window.weaponInvestments || [
 ];
 
 // 变卖物投资列表
-// 同理，可在 HTML 中定义 window.itemInvestments 覆盖默认值
+// 如果页面中提供 window.itemInvestments，下面的数组会被覆盖
 const itemInvestments = window.itemInvestments || [
     {
         id: 'I001',
@@ -136,7 +137,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
         const term = searchInput.value.trim().toLowerCase();
-        const filtered = weaponInvestments.filter(w => w.id.toLowerCase().includes(term));
-        renderWeapons(filtered);
+        // 根据投资号同时过滤枪械和变卖物
+        const filteredWeapons = weaponInvestments.filter(w => w.id.toLowerCase().includes(term));
+        const filteredItems = itemInvestments.filter(i => i.id.toLowerCase().includes(term));
+        renderWeapons(filteredWeapons);
+        renderItems(filteredItems);
     });
 });
