@@ -62,7 +62,6 @@ function createCard(item) {
 
     const canvas = document.createElement('canvas');
     canvas.className = 'chart';
-    drawLineChart(canvas, item.index);
 
     card.appendChild(idLabel);
     card.appendChild(img);
@@ -98,7 +97,10 @@ function renderWeapons(list) {
     const container = document.getElementById('weaponContainer');
     container.innerHTML = '';
     list.forEach(item => {
-        container.appendChild(createCard(item));
+        const card = createCard(item);
+        container.appendChild(card);
+        const canvas = card.querySelector('canvas');
+        drawLineChart(canvas, item.index);
     });
 }
 
@@ -106,7 +108,10 @@ function renderItems(list) {
     const container = document.getElementById('itemContainer');
     container.innerHTML = '';
     list.forEach(item => {
-        container.appendChild(createCard(item));
+        const card = createCard(item);
+        container.appendChild(card);
+        const canvas = card.querySelector('canvas');
+        drawLineChart(canvas, item.index);
     });
 }
 
